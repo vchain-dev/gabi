@@ -307,19 +307,19 @@ func (el *EpochLength) MarshalXML(e *xml.Encoder, start xml.StartElement) error 
 
 // PublicKey represents an issuer's public key.
 type PublicKey struct {
-	XMLName     xml.Name          `xml:"http://www.zurich.ibm.com/security/idemix IssuerPublicKey"`
-	Counter     uint              `xml:"Counter"`
-	ExpiryDate  int64             `xml:"ExpiryDate"`
-	N           *big.Int          `xml:"Elements>n"` // Modulus n
-	Z           *big.Int          `xml:"Elements>Z"` // Generator Z
-	S           *big.Int          `xml:"Elements>S"` // Generator S
-	G           *big.Int          `xml:"Elements>G"` // Generator G for revocation
-	H           *big.Int          `xml:"Elements>H"` // Generator H for revocation
-	R           Bases             `xml:"Elements>Bases"`
-	EpochLength EpochLength       `xml:"Features"`
-	Params      *SystemParameters `xml:"-"`
-	Issuer      string            `xml:"-"`
-	ECDSA       string            `xml:",omitempty"`
+	XMLName     xml.Name          `json:"xmlName" xml:"http://www.zurich.ibm.com/security/idemix IssuerPublicKey"`
+	Counter     uint              `json:"Counter" xml:"Counter"`
+	ExpiryDate  int64             `json:"ExpiryDate" xml:"ExpiryDate"`
+	N           *big.Int          `json:"N" xml:"Elements>n"` // Modulus n
+	Z           *big.Int          `json:"Z" xml:"Elements>Z"` // Generator Z
+	S           *big.Int          `json:"S" xml:"Elements>S"` // Generator S
+	G           *big.Int          `json:"G" xml:"Elements>G"` // Generator G for revocation
+	H           *big.Int          `json:"H" xml:"Elements>H"` // Generator H for revocation
+	R           Bases             `json:"R" xml:"Elements>Bases"`
+	EpochLength EpochLength       `json:"epochLength" xml:"Features"`
+	Params      *SystemParameters `json:"Params" xml:"-"`
+	Issuer      string            `json:"Issuer" xml:"-"`
+	ECDSA       string            `json:"ECDSA" xml:",omitempty"`
 
 	revocationKey *revocation.PublicKey
 }

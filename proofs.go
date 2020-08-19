@@ -141,6 +141,10 @@ func (p *ProofD) MergeProofP(proofP *ProofP, pk *PublicKey) {
 	p.SecretKeyResponse().Add(p.SecretKeyResponse(), proofP.SResponse)
 }
 
+func (p *ProofD) GetDisclosedAttributes() map[int]*big.Int {
+	return p.ADisclosed
+}
+
 // correctResponseSizes checks the sizes of the elements in the ProofD proof.
 func (p *ProofD) correctResponseSizes(pk *PublicKey) bool {
 	// Check range on the AResponses

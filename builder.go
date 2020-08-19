@@ -6,6 +6,7 @@ package gabi
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/go-errors/errors"
@@ -78,6 +79,8 @@ func commitmentToSecret(pk *PublicKey, secret *big.Int) (vPrime, U *big.Int) {
 // NewCredentialBuilder creates a new credential builder. The resulting credential builder
 // is already committed to the provided secret.
 func NewCredentialBuilder(pk *PublicKey, context, secret *big.Int, nonce2 *big.Int) *CredentialBuilder {
+	fmt.Println("YO< BUILDER!")
+	fmt.Println("YO< BUILDER2!")
 	vPrime, U := commitmentToSecret(pk, secret)
 
 	return &CredentialBuilder{
@@ -190,18 +193,47 @@ func (b *CredentialBuilder) proveCommitment(U, nonce1 *big.Int) *ProofU {
 // that is used to create (build) a credential. It also implements the
 // ProofBuilder interface.
 type CredentialBuilder struct {
-	secret       *big.Int
-	vPrime       *big.Int
-	vPrimeCommit *big.Int
-	nonce2       *big.Int
-	u            *big.Int
-	uCommit      *big.Int
-	skRandomizer *big.Int
+	pk      *PublicKey `json:"pk"`
+	context *big.Int   `json:"context"`
+	secret  *big.Int   `json:"secret"`
+	vPrime  *big.Int   `json:"vPrime"`
+	u       *big.Int   `json:"u"`
+	uCommit *big.Int   `json:"uCommit"`
+	nonce2  *big.Int   `json:"nonce2"`
 
-	pk         *PublicKey
-	context    *big.Int
-	proofPcomm *ProofPCommitment
+	vPrimeCommit *big.Int `json:"vPrimeCommit"`
+	skRandomizer *big.Int `json:"skRandomizer"`
+
+	proofPcomm *ProofPCommitment //`json:"proofPcomm"`
 }
+
+// CredentialBuilderPublic is a temporary object to hold some state for the protocol
+// that is used to create (build) a credential. It also implements the
+// ProofBuilder interface.
+type CredentialBuilderPublic struct {
+	Pk      *PublicKey `json:"pk"`
+	Context *big.Int   `json:"context"`
+	Secret  *big.Int   `json:"secret"`
+	VPrime  *big.Int   `json:"vPrime"`
+	U       *big.Int   `json:"u"`
+	UCommit *big.Int   `json:"uCommit"`
+	Nonce2  *big.Int   `json:"nonce2"`
+
+	VPrimeCommit *big.Int `json:"vPrimeCommit"`
+	SkRandomizer *big.Int `json:"skRandomizer"`
+
+	ProofPcomm *ProofPCommitment `json:"proofPcomm"`
+}
+
+// return &CredentialBuilder{
+// 	pk:      pk,
+// 	context: context,
+// 	secret:  secret,
+// 	vPrime:  vPrime,
+// 	u:       U,
+// 	uCommit: big.NewInt(1),
+// 	nonce2:  nonce2,
+// }
 
 func (b *CredentialBuilder) MergeProofPCommitment(commitment *ProofPCommitment) {
 	b.proofPcomm = commitment
@@ -209,6 +241,55 @@ func (b *CredentialBuilder) MergeProofPCommitment(commitment *ProofPCommitment) 
 		b.uCommit.Mul(b.uCommit, commitment.Pcommit),
 		b.pk.N,
 	)
+}
+
+// PublicKey returns the Idemix public key against which the credential will verify.
+func (b *CredentialBuilder) ToString() string {
+	cbp := &CredentialBuilderPublic{
+		Pk:      b.pk,
+		Context: b.context,
+		Secret:  b.secret,
+		VPrime:  b.vPrime,
+		U:       b.u,
+		UCommit: b.uCommit,
+		Nonce2:  b.nonce2,
+
+		VPrimeCommit: b.vPrimeCommit,
+		SkRandomizer: b.skRandomizer,
+
+		ProofPcomm: b.proofPcomm}
+
+	s, err := json.Marshal(cbp)
+
+	if err != nil {
+		fmt.Println("error marshaling")
+		return "baaad"
+	}
+
+	return string(s)
+}
+
+func NewCredentialBuilderFromString(bs string) *CredentialBuilder {
+	var cbp CredentialBuilderPublic
+
+	json.Unmarshal([]byte(bs), &cbp)
+
+	cb := &CredentialBuilder{
+		pk:      cbp.Pk,
+		context: cbp.Context,
+		secret:  cbp.Secret,
+		vPrime:  cbp.VPrime,
+		u:       cbp.U,
+		uCommit: cbp.UCommit,
+		nonce2:  cbp.Nonce2,
+
+		vPrimeCommit: cbp.VPrimeCommit,
+		skRandomizer: cbp.SkRandomizer,
+
+		proofPcomm: cbp.ProofPcomm,
+	}
+
+	return cb
 }
 
 // PublicKey returns the Idemix public key against which the credential will verify.

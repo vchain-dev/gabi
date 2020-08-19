@@ -5,6 +5,8 @@
 package gabi
 
 import (
+	"encoding/json"
+	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -258,6 +260,8 @@ func TestCommitmentMessage(t *testing.T) {
 	b := NewCredentialBuilder(testPubK, context, secret, nonce2)
 	msg := b.CommitToSecretAndProve(nonce1)
 
+	
+
 	assert.True(t, msg.Proofs.Verify([]*PublicKey{testPubK}, context, nonce1, false, nil), "Commitment message proof does not verify, whereas it should.")
 }
 
@@ -316,6 +320,7 @@ func TestSignatureMessage(t *testing.T) {
 	commitMsg := b.CommitToSecretAndProve(nonce1)
 
 	issuer := NewIssuer(testPrivK, testPubK, context)
+	///commitMsg.Proofs.GetProofU
 	_, err := issuer.IssueSignature(commitMsg.U, testAttributes1, nil, nonce2)
 	assert.NoError(t, err, "Error in IssueSignature")
 }
@@ -327,6 +332,19 @@ func TestFullIssuance(t *testing.T) {
 	secret, _ := common.RandomBigInt(testPubK.Params.Lm)
 	b := NewCredentialBuilder(testPubK, context, secret, nonce2)
 	commitMsg := b.CommitToSecretAndProve(nonce1)
+
+	fmt.Println("nonce_1: ", nonce1)
+	fmt.Println("nonce_2: ", nonce2)
+	fmt.Println("this is commit message nonce: ", commitMsg.Nonce2)
+	fmt.Println("this is attributes: ", testAttributes1)
+
+	attrString, err := json.Marshal(testAttributes1)
+
+	fmt.Println("this is attributes as string: ", string(attrString))
+
+	var attrRestored []*big.Int
+	err = json.Unmarshal(attrString, &attrRestored)
+	fmt.Println("this is attributes restored: ", attrRestored)
 
 	issuer := NewIssuer(testPrivK, testPubK, context)
 	msg, err := issuer.IssueSignature(commitMsg.U, testAttributes1, nil, nonce2)
@@ -353,6 +371,8 @@ func TestShowingProof(t *testing.T) {
 func TestCombinedShowingProof(t *testing.T) {
 	context, _ := common.RandomBigInt(testPubK.Params.Lh)
 	nonce1, _ := common.RandomBigInt(testPubK.Params.Lstatzk)
+
+	fmt.Println("another nonce: ", nonce1)
 	secret, _ := common.RandomBigInt(testPubK.Params.Lm)
 
 	issuer1 := NewIssuer(testPrivK1, testPubK1, context)
@@ -367,6 +387,9 @@ func TestCombinedShowingProof(t *testing.T) {
 	require.NoError(t, err)
 	builders := ProofBuilderList([]ProofBuilder{b1, b2})
 	prooflist := builders.BuildProofList(context, nonce1, false)
+
+	s, err := json.Marshal(prooflist)
+	fmt.Println("this is prooflist yo: ", string(s))
 
 	assert.True(t, prooflist.Verify([]*PublicKey{issuer1.Pk, issuer2.Pk}, context, nonce1, false, nil), "Prooflist does not verify whereas it should!")
 }

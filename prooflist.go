@@ -46,6 +46,21 @@ func (pl ProofList) GetProofU(n int) (*ProofU, error) {
 	return nil, ErrMissingProofU
 }
 
+func (pl ProofList) GetProofD(n int) (*ProofD, error) {
+	count := 0
+	for _, proof := range pl {
+		switch proof.(type) {
+		case *ProofD:
+			if count == n {
+				return proof.(*ProofD), nil
+			}
+			count++
+		}
+	}
+	// TODO: correct error type
+	return nil, ErrMissingProofU
+}
+
 // GetFirstProofU returns the first ProofU in this proof list
 func (pl ProofList) GetFirstProofU() (*ProofU, error) {
 	return pl.GetProofU(0)
@@ -74,6 +89,7 @@ func (pl ProofList) challengeContributions(publicKeys []*PublicKey, context, non
 // or one and the same keyshare server).
 // An empty ProofList is not considered valid.
 func (pl ProofList) Verify(publicKeys []*PublicKey, context, nonce *big.Int, issig bool, keyshareServers []string) bool {
+	//pl.GetProofD().Get
 	if len(pl) == 0 ||
 		len(pl) != len(publicKeys) ||
 		len(keyshareServers) > 0 && len(pl) != len(keyshareServers) {
