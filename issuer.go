@@ -7,9 +7,9 @@ package gabi
 import (
 	"crypto/rand"
 
-	"github.com/privacybydesign/gabi/big"
-	"github.com/privacybydesign/gabi/internal/common"
-	"github.com/privacybydesign/gabi/revocation"
+	"github.com/vchain-dev/gabi/big"
+	"github.com/vchain-dev/gabi/internal/common"
+	"github.com/vchain-dev/gabi/revocation"
 )
 
 // Issuer holds the key material for a credential issuer.

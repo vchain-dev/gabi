@@ -3,7 +3,7 @@ package keyproof
 import (
 	"strings"
 
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 )
 
 type (

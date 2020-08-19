@@ -1,7 +1,7 @@
 package keyproof
 
-import "github.com/privacybydesign/gabi/big"
-import "github.com/privacybydesign/gabi/safeprime"
+import "github.com/vchain-dev/gabi/big"
+import "github.com/vchain-dev/gabi/safeprime"
 
 // Performance parameter, defines ammount of extra bits allowed when using a convenient safe prime
 const convenientRange = 100

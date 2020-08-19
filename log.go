@@ -1,7 +1,7 @@
 package gabi
 
 import (
-	"github.com/privacybydesign/gabi/revocation"
+	"github.com/vchain-dev/gabi/revocation"
 	"github.com/sirupsen/logrus"
 )
 

@@ -2,7 +2,7 @@ package common
 
 import "crypto/sha256"
 import "encoding/asn1"
-import "github.com/privacybydesign/gabi/big"
+import "github.com/vchain-dev/gabi/big"
 import gobig "math/big"
 
 // hashCommit computes the sha256 hash over the asn1 representation of a slice

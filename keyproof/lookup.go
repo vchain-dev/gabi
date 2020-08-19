@@ -2,7 +2,7 @@ package keyproof
 
 import (
 	"github.com/bwesterb/go-exptable"
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 
 	"fmt"
 )

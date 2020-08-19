@@ -8,7 +8,7 @@ import (
 	"runtime"
 
 	"github.com/go-errors/errors"
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 )
 
 // GenerateConcurrent concurrently and continuously generates safeprimes on all CPU cores,

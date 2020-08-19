@@ -1,8 +1,8 @@
-[![GoDoc](https://godoc.org/github.com/privacybydesign/gabi?status.svg)](https://godoc.org/github.com/privacybydesign/gabi)
+[![GoDoc](https://godoc.org/github.com/vchain-dev/gabi?status.svg)](https://godoc.org/github.com/vchain-dev/gabi)
 Gabi
 ====
 
-Gabi is a Go implementation of the [IRMA](https://www.irmacard.org) approach to the [Idemix](http://www.research.ibm.com/labs/zurich/idemix/) attribute based credential system. Check out the [IRMA](https://privacybydesign.foundation/irma) website to learn more on this great alternative to traditional identity management. 
+Gabi is a Go implementation of the [IRMA](https://www.irmacard.org) approach to the [Idemix](http://www.research.ibm.com/labs/zurich/idemix/) attribute based credential system. Check out the [IRMA](https://vchain-dev.foundation/irma) website to learn more on this great alternative to traditional identity management. 
 
 gabi itself is designed to be compatible with the existing [Java](https://github.com/credentials/credentials_idemix) and [C++](https://github.com/credentials/silvia) implementations of the IRMA system.
 
@@ -16,7 +16,7 @@ Install
 
 To install:
 
-    go get -v github.com/privacybydesign/gabi
+    go get -v github.com/vchain-dev/gabi
 
 Test
 ----

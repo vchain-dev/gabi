@@ -3,7 +3,7 @@ package keyproof
 import (
 	"testing"
 
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

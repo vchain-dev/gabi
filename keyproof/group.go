@@ -1,9 +1,9 @@
 package keyproof
 
 import (
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 
-	"github.com/privacybydesign/gabi/internal/common"
+	"github.com/vchain-dev/gabi/internal/common"
 
 	"github.com/bwesterb/go-exptable"
 )
