@@ -104,12 +104,12 @@ func (privk *PrivateKey) Validate() error {
 	if new(big.Int).Rsh(new(big.Int).Sub(privk.Q, big.NewInt(1)), 1).Cmp(privk.QPrime) != 0 {
 		return errors.New("Incompatible values for Q and Q'")
 	}
-	if !safeprime.ProbablySafePrime(privk.P, 40) {
-		return errors.New("P is not a safe prime")
-	}
-	if !safeprime.ProbablySafePrime(privk.Q, 40) {
-		return errors.New("Q is not a safe prime")
-	}
+	// if !safeprime.ProbablySafePrime(privk.P, 40) {
+	// 	return errors.New("P is not a safe prime")
+	// }
+	// if !safeprime.ProbablySafePrime(privk.Q, 40) {
+	// 	return errors.New("Q is not a safe prime")
+	// }
 	return nil
 }
 

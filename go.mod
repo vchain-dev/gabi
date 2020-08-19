@@ -12,6 +12,7 @@ require (
 	github.com/mr-tron/base58 v1.1.3
 	github.com/multiformats/go-multihash v0.0.11
 	github.com/pmezard/go-difflib v1.0.0
+	github.com/privacybydesign/gabi v0.0.0-20200805114803-588904629b25 // indirect
 	// github.com/vchain-dev/gabi v0.0.0-20200805114803-588904629b25
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spaolacci/murmur3 v1.1.0
