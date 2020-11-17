@@ -10,9 +10,9 @@ import (
 
 	"github.com/go-errors/errors"
 
-	"github.com/privacybydesign/gabi/big"
-	"github.com/privacybydesign/gabi/internal/common"
-	"github.com/privacybydesign/gabi/revocation"
+	"github.com/vchain-dev/gabi/big"
+	"github.com/vchain-dev/gabi/internal/common"
+	"github.com/vchain-dev/gabi/revocation"
 )
 
 // IssueCommitmentMessage encapsulates the messages sent by the receiver to the
@@ -190,17 +190,35 @@ func (b *CredentialBuilder) proveCommitment(U, nonce1 *big.Int) *ProofU {
 // that is used to create (build) a credential. It also implements the
 // ProofBuilder interface.
 type CredentialBuilder struct {
-	secret       *big.Int
-	vPrime       *big.Int
+	pk      *PublicKey
+	context *big.Int
+	secret  *big.Int
+	vPrime  *big.Int
+	u       *big.Int
+	uCommit *big.Int
+	nonce2  *big.Int
+
 	vPrimeCommit *big.Int
-	nonce2       *big.Int
-	u            *big.Int
-	uCommit      *big.Int
 	skRandomizer *big.Int
 
-	pk         *PublicKey
-	context    *big.Int
 	proofPcomm *ProofPCommitment
+}
+
+// CredentialBuilderPublic is a wrapper around CredentialBuilder making
+// its fields exported
+type CredentialBuilderPublic struct {
+	Pk      *PublicKey `json:"pk"`
+	Context *big.Int   `json:"context"`
+	Secret  *big.Int   `json:"secret"`
+	VPrime  *big.Int   `json:"vPrime"`
+	U       *big.Int   `json:"u"`
+	UCommit *big.Int   `json:"uCommit"`
+	Nonce2  *big.Int   `json:"nonce2"`
+
+	VPrimeCommit *big.Int `json:"vPrimeCommit"`
+	SkRandomizer *big.Int `json:"skRandomizer"`
+
+	ProofPcomm *ProofPCommitment `json:"proofPcomm"`
 }
 
 func (b *CredentialBuilder) MergeProofPCommitment(commitment *ProofPCommitment) {
@@ -209,6 +227,55 @@ func (b *CredentialBuilder) MergeProofPCommitment(commitment *ProofPCommitment) 
 		b.uCommit.Mul(b.uCommit, commitment.Pcommit),
 		b.pk.N,
 	)
+}
+
+// ToString serializes CredentialBuilder to json string
+func (b *CredentialBuilder) ToString() string {
+	cbp := &CredentialBuilderPublic{
+		Pk:      b.pk,
+		Context: b.context,
+		Secret:  b.secret,
+		VPrime:  b.vPrime,
+		U:       b.u,
+		UCommit: b.uCommit,
+		Nonce2:  b.nonce2,
+
+		VPrimeCommit: b.vPrimeCommit,
+		SkRandomizer: b.skRandomizer,
+
+		ProofPcomm: b.proofPcomm}
+
+	s, err := json.Marshal(cbp)
+
+	if err != nil {
+		return err.Error()
+	}
+
+	return string(s)
+}
+
+// NewCredentialBuilderFromString deserializes CredentialBuilder from json string
+func NewCredentialBuilderFromString(bs string) *CredentialBuilder {
+	var cbp CredentialBuilderPublic
+
+	json.Unmarshal([]byte(bs), &cbp)
+
+	cb := &CredentialBuilder{
+		pk:      cbp.Pk,
+		context: cbp.Context,
+		secret:  cbp.Secret,
+		vPrime:  cbp.VPrime,
+		u:       cbp.U,
+		uCommit: cbp.UCommit,
+		nonce2:  cbp.Nonce2,
+
+		vPrimeCommit: cbp.VPrimeCommit,
+		skRandomizer: cbp.SkRandomizer,
+
+		proofPcomm: cbp.ProofPcomm,
+	}
+
+	return cb
 }
 
 // PublicKey returns the Idemix public key against which the credential will verify.

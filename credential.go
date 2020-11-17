@@ -5,16 +5,18 @@
 package gabi
 
 import (
+	"encoding/json"
+
 	"github.com/go-errors/errors"
-	"github.com/privacybydesign/gabi/big"
-	"github.com/privacybydesign/gabi/internal/common"
-	"github.com/privacybydesign/gabi/revocation"
+	"github.com/vchain-dev/gabi/big"
+	"github.com/vchain-dev/gabi/internal/common"
+	"github.com/vchain-dev/gabi/revocation"
 )
 
 // Credential represents an Idemix credential.
 type Credential struct {
 	Signature            *CLSignature        `json:"signature"`
-	Pk                   *PublicKey          `json:"-"`
+	Pk                   *PublicKey          `json:"pk"`
 	Attributes           []*big.Int          `json:"attributes"`
 	NonRevocationWitness *revocation.Witness `json:"nonrevWitness,omitempty"`
 
@@ -33,6 +35,70 @@ type DisclosureProofBuilder struct {
 	pk                    *PublicKey
 	attributes            []*big.Int
 	nonrevBuilder         *NonRevocationProofBuilder
+}
+
+// DisclosureProofBuilderPublic wraps DisclosureProofBuilder and make its
+// fields exported
+type DisclosureProofBuilderPublic struct {
+	RandomizedSignature   *CLSignature               `json:"RandomizedSignature"`
+	ECommit               *big.Int                   `json:"ECommit"`
+	VCommit               *big.Int                   `json:"VCommit"`
+	AttrRandomizers       map[int]*big.Int           `json:"AttrRandomizers"`
+	Z                     *big.Int                   `json:"Z"`
+	DisclosedAttributes   []int                      `json:"DisclosedAttributes"`
+	UndisclosedAttributes []int                      `json:"UndisclosedAttributes"`
+	Pk                    *PublicKey                 `json:"Pk"`
+	Attributes            []*big.Int                 `json:"Attributes"`
+	NonrevBuilder         *NonRevocationProofBuilder `json:"NonrevBuilder"`
+}
+
+// ToString serialise DisclosureProofBuilder to json string
+func (pb *DisclosureProofBuilder) ToString() string {
+	pbp := &DisclosureProofBuilderPublic{
+		RandomizedSignature:   pb.randomizedSignature,
+		ECommit:               pb.eCommit,
+		VCommit:               pb.vCommit,
+		AttrRandomizers:       pb.attrRandomizers,
+		Z:                     pb.z,
+		DisclosedAttributes:   pb.disclosedAttributes,
+		UndisclosedAttributes: pb.undisclosedAttributes,
+		Pk:                    pb.pk,
+		Attributes:            pb.attributes,
+		NonrevBuilder:         pb.nonrevBuilder,
+	}
+
+	s, err := json.Marshal(pbp)
+
+	if err != nil {
+		return err.Error()
+	}
+
+	return string(s)
+}
+
+// NewDisclosureProofBuilderFromString deserializes DisclosureProofBuilder from json string
+func NewDisclosureProofBuilderFromString(pb string) *DisclosureProofBuilder {
+	var pbp DisclosureProofBuilderPublic
+
+	err := json.Unmarshal([]byte(pb), &pbp)
+	if err != nil {
+		return nil
+	}
+
+	dpb := &DisclosureProofBuilder{
+		randomizedSignature:   pbp.RandomizedSignature,
+		eCommit:               pbp.ECommit,
+		vCommit:               pbp.VCommit,
+		attrRandomizers:       pbp.AttrRandomizers,
+		z:                     pbp.Z,
+		disclosedAttributes:   pbp.DisclosedAttributes,
+		undisclosedAttributes: pbp.UndisclosedAttributes,
+		pk:                    pbp.Pk,
+		attributes:            pbp.Attributes,
+		nonrevBuilder:         pbp.NonrevBuilder,
+	}
+
+	return dpb
 }
 
 type NonRevocationProofBuilder struct {

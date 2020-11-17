@@ -9,11 +9,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/privacybydesign/gabi/big"
-	"github.com/privacybydesign/gabi/internal/common"
-	"github.com/privacybydesign/gabi/revocation"
-	"github.com/privacybydesign/gabi/safeprime"
 	"github.com/stretchr/testify/require"
+	"github.com/vchain-dev/gabi/big"
+	"github.com/vchain-dev/gabi/internal/common"
+	"github.com/vchain-dev/gabi/revocation"
+	"github.com/vchain-dev/gabi/safeprime"
 
 	"github.com/stretchr/testify/assert"
 )

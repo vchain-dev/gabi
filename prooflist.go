@@ -6,8 +6,8 @@ package gabi
 
 import (
 	"github.com/go-errors/errors"
-	"github.com/privacybydesign/gabi/big"
-	"github.com/privacybydesign/gabi/internal/common"
+	"github.com/vchain-dev/gabi/big"
+	"github.com/vchain-dev/gabi/internal/common"
 )
 
 // ProofBuilder is an interface for a proof builder. That is, an object to hold
@@ -43,6 +43,21 @@ func (pl ProofList) GetProofU(n int) (*ProofU, error) {
 			count++
 		}
 	}
+	return nil, ErrMissingProofU
+}
+
+func (pl ProofList) GetProofD(n int) (*ProofD, error) {
+	count := 0
+	for _, proof := range pl {
+		switch proof.(type) {
+		case *ProofD:
+			if count == n {
+				return proof.(*ProofD), nil
+			}
+			count++
+		}
+	}
+	// TODO: correct error type
 	return nil, ErrMissingProofU
 }
 

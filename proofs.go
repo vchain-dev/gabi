@@ -7,9 +7,9 @@ package gabi
 import (
 	"errors"
 
-	"github.com/privacybydesign/gabi/big"
-	"github.com/privacybydesign/gabi/internal/common"
-	"github.com/privacybydesign/gabi/revocation"
+	"github.com/vchain-dev/gabi/big"
+	"github.com/vchain-dev/gabi/internal/common"
+	"github.com/vchain-dev/gabi/revocation"
 )
 
 // Proof represents a non-interactive zero-knowledge proof
@@ -139,6 +139,10 @@ type ProofD struct {
 
 func (p *ProofD) MergeProofP(proofP *ProofP, pk *PublicKey) {
 	p.SecretKeyResponse().Add(p.SecretKeyResponse(), proofP.SResponse)
+}
+
+func (p *ProofD) GetDisclosedAttributes() map[int]*big.Int {
+	return p.ADisclosed
 }
 
 // correctResponseSizes checks the sizes of the elements in the ProofD proof.

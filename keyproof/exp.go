@@ -1,7 +1,7 @@
 package keyproof
 
 import (
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 
 	"fmt"
 	"runtime"

@@ -7,8 +7,8 @@ package gabi
 import (
 	"crypto/rand"
 
-	"github.com/privacybydesign/gabi/big"
-	"github.com/privacybydesign/gabi/internal/common"
+	"github.com/vchain-dev/gabi/big"
+	"github.com/vchain-dev/gabi/internal/common"
 )
 
 // RepresentToPublicKey returns a representation of the given exponents in terms of the R bases

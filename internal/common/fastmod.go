@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 )
 
 // Fast modulo operation for p = 2^b - c for small c.

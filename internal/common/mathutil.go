@@ -7,7 +7,7 @@ package common
 import (
 	"crypto/rand"
 
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 )
 
 // Some utility code (mostly math stuff) useful in various places in this

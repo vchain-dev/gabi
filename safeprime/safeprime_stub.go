@@ -3,7 +3,7 @@
 package safeprime
 
 import (
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 )
 
 func Generate(int, chan struct{}) (*big.Int, error) {

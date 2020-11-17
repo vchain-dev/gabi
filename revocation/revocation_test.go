@@ -5,11 +5,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/privacybydesign/gabi/big"
-	"github.com/privacybydesign/gabi/internal/common"
-	"github.com/privacybydesign/gabi/keyproof"
-	"github.com/privacybydesign/gabi/safeprime"
-	"github.com/privacybydesign/gabi/signed"
+	"github.com/vchain-dev/gabi/big"
+	"github.com/vchain-dev/gabi/internal/common"
+	"github.com/vchain-dev/gabi/keyproof"
+	"github.com/vchain-dev/gabi/safeprime"
+	"github.com/vchain-dev/gabi/signed"
 
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 )
 
 var globalCprng *CPRNG

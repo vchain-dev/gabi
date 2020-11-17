@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/privacybydesign/gabi/big"
+	"github.com/vchain-dev/gabi/big"
 
 	"math/rand"
 	"testing"
